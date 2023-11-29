@@ -280,101 +280,149 @@
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor></Slider>
-      <Button fx:id="pausar_maul" layoutX="887.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
+      <Button fx:id="pausar_maul" layoutX="887.0" layoutY="126.0" mnemonicParsing="false" onAction="#pausarMaul" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button fx:id="ocultar_percurso_maul" layoutX="887.0" layoutY="155.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="OCULTAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Slider fx:id="slider_sidious" layoutX="887.0" layoutY="225.0" max="10.0" prefHeight="34.0" prefWidth="73.0" style="-fx-background-color: #5140ce;">
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor></Slider>
-      <Button fx:id="pausar_sidious" layoutX="887.0" layoutY="266.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
+      <Button fx:id="pausar_sidious" layoutX="887.0" layoutY="266.0" mnemonicParsing="false" onAction="#pausarSidius" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button fx:id="ocultar_percurso_sidious" layoutX="887.0" layoutY="295.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="OCULTAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Slider fx:id="slider_vader" layoutX="887.0" layoutY="383.0" max="10.0" prefHeight="34.0" prefWidth="73.0" style="-fx-background-color: #5140ce;">
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor></Slider>
-      <Button fx:id="pausar_vader" layoutX="887.0" layoutY="424.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
+      <Button fx:id="pausar_vader" layoutX="887.0" layoutY="424.0" mnemonicParsing="false" onAction="#pausarVader" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button fx:id="ocultar_percurso_vader" layoutX="887.0" layoutY="453.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="OCULTAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Slider fx:id="slider_kylo" layoutX="887.0" layoutY="544.0" max="10.0" prefHeight="34.0" prefWidth="73.0" style="-fx-background-color: #5140ce;">
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor></Slider>
-      <Button fx:id="pausar_kylo" layoutX="887.0" layoutY="585.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
+      <Button fx:id="pausar_kylo" layoutX="887.0" layoutY="585.0" mnemonicParsing="false" onAction="#pausarKylo" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button fx:id="ocultar_percurso_kylo" layoutX="887.0" layoutY="614.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="OCULTAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Slider fx:id="slider_yoda" layoutX="1169.0" layoutY="78.0" max="10.0" prefHeight="34.0" prefWidth="73.0" style="-fx-background-color: #5140ce;" />
-      <Button fx:id="pausar_yoda" layoutX="1169.0" layoutY="119.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
+      <Button fx:id="pausar_yoda" layoutX="1169.0" layoutY="119.0" mnemonicParsing="false" onAction="#pausarYoda" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button fx:id="ocultar_percurso_yoda" layoutX="1169.0" layoutY="148.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="OCULTAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Slider fx:id="slider_luke" layoutX="1169.0" layoutY="218.0" max="10.0" prefHeight="34.0" prefWidth="73.0" style="-fx-background-color: #5140ce;" />
-      <Button fx:id="pausar_luke" layoutX="1169.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
+      <Button fx:id="pausar_luke" layoutX="1169.0" layoutY="259.0" mnemonicParsing="false" onAction="#pausarLuke" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button fx:id="ocultar_percurso_luke" layoutX="1169.0" layoutY="288.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="OCULTAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Slider fx:id="slider_obiwan" layoutX="1169.0" layoutY="376.0" max="10.0" prefHeight="34.0" prefWidth="73.0" style="-fx-background-color: #5140ce;" />
-      <Button fx:id="pausar_obiwan" layoutX="1169.0" layoutY="417.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
+      <Button fx:id="pausar_obiwan" layoutX="1169.0" layoutY="417.0" mnemonicParsing="false" onAction="#pausarObiwan" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button fx:id="ocultar_percurso_obiwan" layoutX="1169.0" layoutY="446.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="OCULTAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Slider fx:id="slider_ahsoka" layoutX="1169.0" layoutY="537.0" max="10.0" prefHeight="34.0" prefWidth="73.0" style="-fx-background-color: #5140ce;" />
-      <Button fx:id="pausar_ahsoka" layoutX="1169.0" layoutY="578.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
+      <Button fx:id="pausar_ahsoka" layoutX="1169.0" layoutY="578.0" mnemonicParsing="false" onAction="#pausarAhsoka" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="PAUSAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button fx:id="ocultar_percurso_ahsoka" layoutX="1169.0" layoutY="607.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #ffea2b;" text="OCULTAR">
          <font>
             <Font name="Arial Black" size="9.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Label layoutX="160.0" layoutY="576.0" prefHeight="34.0" prefWidth="43.0" style="-fx-background-color: #fc2323;" text="ELM1" textFill="WHITE">
          <font>
@@ -676,8 +724,8 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <Button layoutX="94.0" layoutY="36.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="PLAY" />
-      <Button layoutX="94.0" layoutY="66.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="RESET" />
+      <Button fx:id="start" layoutX="94.0" layoutY="36.0" mnemonicParsing="false" onAction="#botaoIniciar" prefHeight="25.0" prefWidth="73.0" text="PLAY" />
+      <Button fx:id="reset" layoutX="94.0" layoutY="66.0" mnemonicParsing="false" onAction="#reset" prefHeight="25.0" prefWidth="73.0" text="RESET" />
       <ImageView fx:id="nave_ahsoka" fitHeight="64.0" fitWidth="185.0" layoutX="393.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/nave_ahsoka.png" />

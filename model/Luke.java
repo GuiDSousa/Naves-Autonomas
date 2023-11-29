@@ -32,10 +32,27 @@ public class Luke extends Thread{
 			int novaVelocidade = newValue.intValue();
 		});
 	}
+	public void retornarPosicaoInicial() {
+		Platform.runLater(() -> {
+		  nave.setLayoutX(586);
+		  nave.setLayoutY(360);
+		  nave.setRotate(0);
+		});
+	  }
 
 	// Método para parar a nave
 	public void parar() {
-		this.start = false;
+		this.suspend();
+		start = false;
+	}
+
+	public void retomar() {
+		this.resume();
+		start = true;
+	}
+
+	public boolean isStart() {
+		return start;
 	}
 
 	@Override

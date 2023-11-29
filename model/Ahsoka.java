@@ -37,10 +37,20 @@ public class Ahsoka extends Thread {
     });
   }
 
-  // Método para parar a nave
-  public void parar() {
-    this.start = false;
-  }
+	// Método para parar a nave
+	public void parar() {
+		this.suspend();
+		start = false;
+	}
+
+	public void retomar() {
+		this.resume();
+		start = true;
+	}
+
+	public boolean isStart() {
+		return start;
+	}
 
   // Lógica de movimentação da nave no percurso anti-horário
   @Override
@@ -115,5 +125,14 @@ public class Ahsoka extends Thread {
       });
       posicaoYinicial++;
     }
+  }
+
+  // Método para retornar a posição inicial da nave
+  public void retornarPosicaoInicial() {
+    Platform.runLater(() -> {
+      nave.setLayoutX(393);
+      nave.setLayoutY(360);
+      nave.setRotate(0);
+    });
   }
 }

@@ -2,17 +2,24 @@ package controller;
 
 
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
-public class TelaController {
+public class TelaController implements Initializable{
     
     @FXML
     private Button entrar;
@@ -25,6 +32,7 @@ public class TelaController {
 
     // Referência à janela atual
     private Stage stage;
+    private MediaPlayer mediaPlayer;
 
     // Configura a referência à janela atual
     public void setStage(Stage stage) {
@@ -42,7 +50,7 @@ private void entrar(ActionEvent event) {
         stage.setTitle("Episodio V - A Batalha dos Bytes");
         stage.setScene(scene);
         stage.show();
-
+        stopAudio();	
         // Fecha a janela atual
         entrar.getScene().getWindow().hide();
     } catch (Exception e) {
@@ -70,6 +78,28 @@ private void entrar(ActionEvent event) {
     @FXML
     private void sair() {
         // Fecha a janela atual
-        stage.close();
+        sair.getScene().getWindow().hide();
     }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Media sound = new Media(getClass().getResource("starwarstheme.wav").toExternalForm());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+        mediaPlayer.setVolume(0.1);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        // Associar o evento handleStopMusic ao botão de parar a música quando o mouse for pressionado sobre a ImageView stopMusic
+    }
+    @FXML private void handleStopMusic() {
+        stopAudio();
+      } // Fim do método handleStopMusic
+
+    private void stopAudio() {
+    if (mediaPlayer != null) {
+      mediaPlayer.stop();
+      mediaPlayer.seek(Duration.ZERO);
+    } // Fim do if
+  }
+
+
 }

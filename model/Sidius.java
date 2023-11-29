@@ -31,11 +31,29 @@ public class Sidius extends Thread {
 				int novaVelocidade = newValue.intValue();
 			});
 		}
+
+		public void retornarPosicaoInicial() {
+			Platform.runLater(() -> {
+			  nave.setLayoutX(490);
+			  nave.setLayoutY(560);
+			  nave.setRotate(0);
+			});
+		  }
 	
-		// Método para parar a nave
-		public void parar() {
-			this.start = false;
-		}
+	// Método para parar a nave
+	public void parar() {
+		this.suspend();
+		start = false;
+	}
+
+	public void retomar() {
+		this.resume();
+		start = true;
+	}
+
+	public boolean isStart() {
+		return start;
+	}
 	
 		@Override
 		public void run() {

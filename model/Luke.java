@@ -1,5 +1,9 @@
 package model;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import controller.MainController;
 import javafx.application.Platform;
 import javafx.scene.control.Slider;
@@ -13,6 +17,9 @@ public class Luke extends Thread{
 	private ImageView nave;
 	private boolean start = true;
 	private Slider slider;
+	  private boolean pause = false;
+	private final Lock lock = new ReentrantLock();
+	private final Condition condition = lock.newCondition();
 
 	MainController controle = new MainController();
 
@@ -40,15 +47,27 @@ public class Luke extends Thread{
 		});
 	  }
 
-	// Método para parar a nave
-	public void parar() {
-		this.suspend();
-		start = false;
+	  public void parar() {
+		lock.lock();
+		try {
+			this.pause = true;
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	public void retomar() {
-		this.resume();
-		start = true;
+		lock.lock();
+		try {
+			this.pause = false;
+			condition.signal();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+  public boolean isPaused() {
+		return pause;
 	}
 
 	public boolean isStart() {
@@ -57,12 +76,16 @@ public class Luke extends Thread{
 
 	@Override
 	public void run() {
-		while (start) {
-			try {
-				moverNaveLuke();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		try {
+			while (true) {
+				if (!pause) { // Check the pause variable instead of the start variable
+					moverNaveLuke();
+				} else {
+          Thread.sleep(500);
+        }
 			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -85,6 +108,7 @@ public class Luke extends Thread{
 
 	public void moverEsquerda(double COORD_X) throws InterruptedException {
     while (posicaoXinicial != COORD_X) {
+		pauseIfNeeded();
       sleep(500 / (velocidade * 5));
       Platform.runLater(() -> {
         nave.setRotate(270);
@@ -97,6 +121,7 @@ public class Luke extends Thread{
   // Método para mover a direita, aumentando o valor de X
   public void moverDireita(double COORD_X) throws InterruptedException {
     while (posicaoXinicial != COORD_X) {
+		pauseIfNeeded();
       sleep(500 / (velocidade * 5));
       Platform.runLater(() -> {
         nave.setRotate(90);
@@ -109,6 +134,7 @@ public class Luke extends Thread{
   // Método para mover para cima, diminuindo o valor de Y
   public void moverCima(double COORD_Y) throws InterruptedException {
     while (posicaoYinicial != COORD_Y) {
+		pauseIfNeeded();
       sleep(500 / (velocidade * 5));
       Platform.runLater(() -> {
         nave.setRotate(0);
@@ -121,6 +147,7 @@ public class Luke extends Thread{
   // Método para mover para baixo, aumentando o valor de Y
   public void moverBaixo(double COORD_Y) throws InterruptedException {
     while (posicaoYinicial != COORD_Y) {
+		pauseIfNeeded();
       sleep(500 / (velocidade * 5));
       Platform.runLater(() -> {
         nave.setRotate(180);
@@ -129,4 +156,19 @@ public class Luke extends Thread{
       posicaoYinicial++;
     }
   }
+
+  private void pauseIfNeeded() {
+	lock.lock();
+	try {
+		while (pause) {
+			try {
+				condition.await();
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+	} finally {
+		lock.unlock();
+	}
+}
 }

@@ -3,19 +3,26 @@ package model;
 import javafx.application.Platform;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
+
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import controller.MainController;
 
 // Ahsoka percorre o percurso 15 no sentido horário
 public class Ahsoka extends Thread {
 
-  private int velocidade = 5;
+  private int velocidade = 10;
   private int posicaoXinicial = 393;
   private int posicaoYinicial = 360;
 
   private ImageView nave;
   private boolean start = true;
   private Slider slider;
-
+  private boolean pause = false;
+  private final Lock lock = new ReentrantLock();
+  private final Condition condition = lock.newCondition();
   MainController controle = new MainController();
 
   // Construtor
@@ -37,35 +44,52 @@ public class Ahsoka extends Thread {
     });
   }
 
-	// Método para parar a nave
-	public void parar() {
-		this.suspend();
-		start = false;
-	}
+  public void parar() {
+    lock.lock();
+    try {
+      this.pause = true;
+    } finally {
+      lock.unlock();
+    }
+  }
 
-	public void retomar() {
-		this.resume();
-		start = true;
-	}
+  public void retomar() {
+    lock.lock();
+    try {
+      this.pause = false;
+      condition.signal();
+    } finally {
+      lock.unlock();
+    }
+  }
 
-	public boolean isStart() {
-		return start;
-	}
+  public boolean isPaused() {
+    return pause;
+  }
 
-  // Lógica de movimentação da nave no percurso anti-horário
+  public boolean isStart() {
+    return start;
+  }
+
   @Override
   public void run() {
-    while (start) {
-      try {
-        moverNaveAhsoka();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+    try {
+      while (true) {
+        if (!pause) { // Check the pause variable instead of the start variable
+          moverNaveAhsoka();
+        } else {
+          Thread.sleep(500);
+        }
       }
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
   }
 
   public void moverNaveAhsoka() throws InterruptedException {
+    controle.semaforoJOY_12.acquire();
     moverEsquerda(296);
+    controle.semaforoJOY_12.release();
     moverEsquerda(200);
     moverEsquerda(100);
     moverCima(260);
@@ -76,12 +100,15 @@ public class Ahsoka extends Thread {
     moverDireita(393);
     moverBaixo(160);
     moverBaixo(260);
+    controle.semaforoHILL_47.acquire();
     moverBaixo(360);
+    controle.semaforoHILL_47.release();
   }
 
   // Método para mover a esquerda, diminuindo o valor de X
   public void moverEsquerda(double COORD_X) throws InterruptedException {
     while (posicaoXinicial != COORD_X) {
+      pauseIfNeeded();
       sleep(500 / (velocidade * 5));
       Platform.runLater(() -> {
         nave.setRotate(270);
@@ -94,6 +121,7 @@ public class Ahsoka extends Thread {
   // Método para mover a direita, aumentando o valor de X
   public void moverDireita(double COORD_X) throws InterruptedException {
     while (posicaoXinicial != COORD_X) {
+      pauseIfNeeded();
       sleep(500 / (velocidade * 5));
       Platform.runLater(() -> {
         nave.setRotate(90);
@@ -106,6 +134,7 @@ public class Ahsoka extends Thread {
   // Método para mover para cima, diminuindo o valor de Y
   public void moverCima(double COORD_Y) throws InterruptedException {
     while (posicaoYinicial != COORD_Y) {
+      pauseIfNeeded();
       sleep(500 / (velocidade * 5));
       Platform.runLater(() -> {
         nave.setRotate(0);
@@ -117,7 +146,9 @@ public class Ahsoka extends Thread {
 
   // Método para mover para baixo, aumentando o valor de Y
   public void moverBaixo(double COORD_Y) throws InterruptedException {
+
     while (posicaoYinicial != COORD_Y) {
+      pauseIfNeeded();
       sleep(500 / (velocidade * 5));
       Platform.runLater(() -> {
         nave.setRotate(180);
@@ -134,5 +165,20 @@ public class Ahsoka extends Thread {
       nave.setLayoutY(360);
       nave.setRotate(0);
     });
+  }
+
+  private void pauseIfNeeded() {
+    lock.lock();
+    try {
+      while (pause) {
+        try {
+          condition.await();
+        } catch (InterruptedException e) {
+          Thread.currentThread().interrupt();
+        }
+      }
+    } finally {
+      lock.unlock();
+    }
   }
 }

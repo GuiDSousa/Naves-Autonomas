@@ -1,6 +1,7 @@
 package model;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 // Classe responsável por representar as vias no sistema de tráfeo autônomo.
 public class Vias {
@@ -96,33 +97,79 @@ public class Vias {
         ruas.add(rua);
     }
 
-    private void adicionarPercursoAhsoka() {
-        // O percurso da Ahsoka
-        adicionarRua("BEE_4", 490, 560, 586, 560);
-        adicionarRua("ASH_3", 393, 560, 490, 560);
-        adicionarRua("ANA_2", 296, 560, 393, 560);
-        adicionarRua("OAK_1", 200, 560, 296, 560);
-        adicionarRua("ELM_0", 100, 560, 200, 560);
-
-        adicionarRua("AIKO_30", 100, 460, 100, 560);
-        adicionarRua("ZORO_31", 100, 360, 100, 460);
-        adicionarRua("VINE_32", 100, 260, 100, 360);
-        adicionarRua("ROSE_33", 100, 160, 100, 260);
-        adicionarRua("HALO_34", 100, 60, 100, 160);
-
-        adicionarRua("WIN_25", 100, 60, 200, 60);
-        adicionarRua("BUD_26", 200, 60, 296, 60);
-
-        adicionarRua("DUSK_44", 296, 160, 296, 60);
-        adicionarRua("LUSH_43", 296, 260, 296, 160);
-        adicionarRua("GAZE_42", 296, 360, 296, 260);
-
-        adicionarRua("JOY_12", 296, 360, 393, 360);
-        adicionarRua("LUX_13", 393, 360, 490, 360);
-        adicionarRua("ORB_14", 490, 360, 586, 360);
-
-        adicionarRua("HIRO_56", 586, 160, 586, 60);
-        adicionarRua("BUGG_55", 586, 160, 586, 260);
+    public void criarSemaforos() {
+        // Semaforos avenida horizontal 1
+        Semaphore semaforoELM_0 = new Semaphore(1);
+        Semaphore semaforoOAK_1 = new Semaphore(1);
+        Semaphore semaforoANA_2 = new Semaphore(1);
+        Semaphore semaforoASH_3 = new Semaphore(1);
+        Semaphore semaforoBEE_4 = new Semaphore(1);
+        // Semaforos avenida horizontal 2
+        Semaphore semaforoSKY_5 = new Semaphore(1);
+        Semaphore semaforoIVY_6 = new Semaphore(1);
+        Semaphore semaforoSUN_7 = new Semaphore(1);
+        Semaphore semaforoDEW_8 = new Semaphore(1);
+        Semaphore semaforoFOG_9 = new Semaphore(1);
+        // Semaforos avenida horizontal 3
+        Semaphore semaforoZEN_10 = new Semaphore(1);
+        Semaphore semaforoJET_11 = new Semaphore(1);
+        Semaphore semaforoJOY_12 = new Semaphore(1);
+        Semaphore semaforoLUX_13 = new Semaphore(1);
+        Semaphore semaforoORB_14 = new Semaphore(1);    
+        // Semaforos avenida horizontal 4
+        Semaphore semaforoPIP_15 = new Semaphore(1);
+        Semaphore semaforoPET_16 = new Semaphore(1);    
+        Semaphore semaforoPIN_17 = new Semaphore(1);
+        Semaphore semaforoPAI_18 = new Semaphore(1);
+        Semaphore semaforoPOD_19 = new Semaphore(1);
+        // Semaforos avenida horizontal 5
+        Semaphore semaforoJAX_20 = new Semaphore(1);
+        Semaphore semaforoKAY_21 = new Semaphore(1);
+        Semaphore semaforoACE_22 = new Semaphore(1);
+        Semaphore semaforoFIN_23 = new Semaphore(1);
+        Semaphore semaforoDOC_24 = new Semaphore(1);
+        // Semaforos avenida horizontal 6
+        Semaphore semaforoWIN_25 = new Semaphore(1);
+        Semaphore semaforoBUD_26 = new Semaphore(1);
+        Semaphore semaforoAXE_27 = new Semaphore(1);
+        Semaphore semaforoZOE_28 = new Semaphore(1);
+        Semaphore semaforoGAL_29 = new Semaphore(1);
+        // Semaforos avenida vertical 1
+        Semaphore semaforoAIKO_30 = new Semaphore(1);
+        Semaphore semaforoZORO_31 = new Semaphore(1);
+        Semaphore semaforoVINE_32 = new Semaphore(1);
+        Semaphore semaforoROSE_33 = new Semaphore(1);
+        Semaphore semaforoHALO_34 = new Semaphore(1);
+        // Semaforos avenida vertical 2
+        Semaphore semaforoAIMI_35 = new Semaphore(1);
+        Semaphore semaforoFUJI_36 = new Semaphore(1);
+        Semaphore semaforoAQUA_37 = new Semaphore(1);
+        Semaphore semaforoIRIS_38 = new Semaphore(1);
+        Semaphore semaforoNOVA_39 = new Semaphore(1);
+        // Semaforos avenida vertical 3
+        Semaphore semaforoCHOU_40 = new Semaphore(1);
+        Semaphore semaforoEREN_41 = new Semaphore(1);
+        Semaphore semaforoGAZE_42 = new Semaphore(1);
+        Semaphore semaforoLUSH_43 = new Semaphore(1);
+        Semaphore semaforoDUSK_44 = new Semaphore(1);
+        // Semaforos avenida vertical 4
+        Semaphore semaforoNEJI_45 = new Semaphore(1);
+        Semaphore semaforoYOKA_46 = new Semaphore(1);
+        Semaphore semaforoHILL_47 = new Semaphore(1);
+        Semaphore semaforoLUNA_48 = new Semaphore(1);
+        Semaphore semaforoVIBE_49 = new Semaphore(1);
+        // Semaforos avenida vertical 5
+        Semaphore semaforoPAIN_50 = new Semaphore(1);
+        Semaphore semaforoHANA_51 = new Semaphore(1);
+        Semaphore semaforoSILK_52 = new Semaphore(1);
+        Semaphore semaforoECHO_53 = new Semaphore(1);
+        Semaphore semaforoZEST_54 = new Semaphore(1);
+        // Semaforos avenida vertical 6
+        Semaphore semaforoBUGG_55 = new Semaphore(1);
+        Semaphore semaforoHIRO_56 = new Semaphore(1);
+        Semaphore semaforoPAVE_57 = new Semaphore(1);
+        Semaphore semaforoMIST_58 = new Semaphore(1);
+        Semaphore semaforoZENO_59 = new Semaphore(1);
     }
 
     public class Rua {

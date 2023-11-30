@@ -1,5 +1,9 @@
 package model;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import controller.MainController;
 import javafx.application.Platform;
 import javafx.scene.control.Slider;
@@ -13,6 +17,9 @@ public class Vader extends Thread {
 	private ImageView nave;
 	private boolean start = true;
 	private Slider slider;
+	private boolean pause = false;
+	private final Lock lock = new ReentrantLock();
+	private final Condition condition = lock.newCondition();
 
 	MainController controle = new MainController();
 
@@ -24,49 +31,67 @@ public class Vader extends Thread {
 		this.slider = slider;
 		modificarValor(slider);
 	}
-		// Método para modificar o valor do slider
-		private void modificarValor(Slider slider) {
-			slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-				// Atualizar a velocidade quando o valor do slider muda
-				int novaVelocidade = newValue.intValue();
-			});
-		}
 
-		public void retornarPosicaoInicial() {
-			Platform.runLater(() -> {
-			  nave.setLayoutX(296);
-			  nave.setLayoutY(260);
-			  nave.setRotate(0);
-			});
-		  }
-	
-	// Método para parar a nave
+	// Método para modificar o valor do slider
+	private void modificarValor(Slider slider) {
+		slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			// Atualizar a velocidade quando o valor do slider muda
+			int novaVelocidade = newValue.intValue();
+		});
+	}
+
+	public void retornarPosicaoInicial() {
+		Platform.runLater(() -> {
+			nave.setLayoutX(296);
+			nave.setLayoutY(260);
+			nave.setRotate(0);
+		});
+	}
+
 	public void parar() {
-		this.suspend();
-		start = false;
+		lock.lock();
+		try {
+			this.pause = true;
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	public void retomar() {
-		this.resume();
-		start = true;
+		lock.lock();
+		try {
+			this.pause = false;
+			condition.signal();
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	public boolean isStart() {
 		return start;
 	}
-	
-		@Override
-		public void run() {
-			while (start) {
-				try {
+
+	public boolean isPaused() {
+		return pause;
+	}
+
+	@Override
+	public void run() {
+		try {
+			while (true) {
+				if (!pause) { // Check the pause variable instead of the start variable
 					moverNaveVader();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				} else {
+					Thread.sleep(500); // Sleep for a while if paused
 				}
 			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+	}
 
 	public void moverNaveVader() throws InterruptedException {
+
 		moverBaixo(360);
 		moverEsquerda(200);
 		moverBaixo(460);
@@ -98,49 +123,68 @@ public class Vader extends Thread {
 	}
 
 	public void moverEsquerda(double COORD_X) throws InterruptedException {
-    while (posicaoXinicial != COORD_X) {
-      sleep(500 / (velocidade * 5));
-      Platform.runLater(() -> {
-        nave.setRotate(270);
-        nave.setLayoutX(posicaoXinicial);
-      });
-      posicaoXinicial--;
-    }
-  }
+		while (posicaoXinicial != COORD_X) {
+			pauseIfNeeded();
+			sleep(500 / (velocidade * 5));
+			Platform.runLater(() -> {
+				nave.setRotate(270);
+				nave.setLayoutX(posicaoXinicial);
+			});
+			posicaoXinicial--;
+		}
+	}
 
-  // Método para mover a direita, aumentando o valor de X
-  public void moverDireita(double COORD_X) throws InterruptedException {
-    while (posicaoXinicial != COORD_X) {
-      sleep(500 / (velocidade * 5));
-      Platform.runLater(() -> {
-        nave.setRotate(90);
-        nave.setLayoutX(posicaoXinicial);
-      });
-      posicaoXinicial++;
-    }
-  }
+	// Método para mover a direita, aumentando o valor de X
+	public void moverDireita(double COORD_X) throws InterruptedException {
+		while (posicaoXinicial != COORD_X) {
+			pauseIfNeeded();
+			sleep(500 / (velocidade * 5));
+			Platform.runLater(() -> {
+				nave.setRotate(90);
+				nave.setLayoutX(posicaoXinicial);
+			});
+			posicaoXinicial++;
+		}
+	}
 
-  // Método para mover para cima, diminuindo o valor de Y
-  public void moverCima(double COORD_Y) throws InterruptedException {
-    while (posicaoYinicial != COORD_Y) {
-      sleep(500 / (velocidade * 5));
-      Platform.runLater(() -> {
-        nave.setRotate(0);
-        nave.setLayoutY(posicaoYinicial);
-      });
-      posicaoYinicial--;
-    }
-  }
+	// Método para mover para cima, diminuindo o valor de Y
+	public void moverCima(double COORD_Y) throws InterruptedException {
+		while (posicaoYinicial != COORD_Y) {
+			pauseIfNeeded();
+			sleep(500 / (velocidade * 5));
+			Platform.runLater(() -> {
+				nave.setRotate(0);
+				nave.setLayoutY(posicaoYinicial);
+			});
+			posicaoYinicial--;
+		}
+	}
 
-  // Método para mover para baixo, aumentando o valor de Y
-  public void moverBaixo(double COORD_Y) throws InterruptedException {
-    while (posicaoYinicial != COORD_Y) {
-      sleep(500 / (velocidade * 5));
-      Platform.runLater(() -> {
-        nave.setRotate(180);
-        nave.setLayoutY(posicaoYinicial);
-      });
-      posicaoYinicial++;
-    }
-  }
+	// Método para mover para baixo, aumentando o valor de Y
+	public void moverBaixo(double COORD_Y) throws InterruptedException {
+		while (posicaoYinicial != COORD_Y) {
+			pauseIfNeeded();
+			sleep(500 / (velocidade * 5));
+			Platform.runLater(() -> {
+				nave.setRotate(180);
+				nave.setLayoutY(posicaoYinicial);
+			});
+			posicaoYinicial++;
+		}
+	}
+
+	private void pauseIfNeeded() {
+		lock.lock();
+		try {
+			while (pause) {
+				try {
+					condition.await();
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			}
+		} finally {
+			lock.unlock();
+		}
+	}
 }

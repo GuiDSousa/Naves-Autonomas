@@ -88,21 +88,43 @@ public class Ahsoka extends Thread {
 
   public void moverNaveAhsoka() throws InterruptedException {
     controle.semaforoJOY_12.acquire();
+    controle.semaforoJET_11.acquire();
+    controle.semaforoZEN_10.acquire();
     moverEsquerda(296);
-    controle.semaforoJOY_12.release();
     moverEsquerda(200);
     moverEsquerda(100);
+    controle.semaforoJOY_12.release();
+    controle.semaforoJET_11.release();
+    controle.semaforoZEN_10.release();
+    controle.semaforoVINE_32.acquire();
+    controle.semaforoROSE_33.acquire();
+    controle.semaforoHALO_34.acquire();
+    controle.semaforoJAX_20.acquire();
     moverCima(260);
     moverCima(160);
     moverCima(60);
+    controle.semaforoVINE_32.release();
+    controle.semaforoROSE_33.release();
+    controle.semaforoHALO_34.release();
+    controle.semaforoJAX_20.release();  
+    controle.semaforoWIN_25.acquire();
+    controle.semaforoBUD_26.acquire();
+    controle.semaforoAXE_27.acquire();
     moverDireita(200);
     moverDireita(296);
     moverDireita(393);
+    controle.semaforoWIN_25.release();
+    controle.semaforoBUD_26.release();
+    controle.semaforoAXE_27.release();
+    controle.semaforoHILL_47.acquire();
+    controle.semaforoLUNA_48.acquire();
+    controle.semaforoVIBE_49.acquire();
     moverBaixo(160);
     moverBaixo(260);
-    controle.semaforoHILL_47.acquire();
     moverBaixo(360);
     controle.semaforoHILL_47.release();
+    controle.semaforoLUNA_48.release();
+    controle.semaforoVIBE_49.release();
   }
 
   // Método para mover a esquerda, diminuindo o valor de X

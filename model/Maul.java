@@ -12,8 +12,8 @@ import javafx.scene.image.ImageView;
 // Maul percorre o percurso 12 no sentido anti-horário
 public class Maul extends Thread {
 	private int velocidade = 5;
-	private int posicaoXinicial = 200;
-	private int posicaoYinicial = 560;
+	private int posicaoXinicial = 145;
+	private int posicaoYinicial = 625;
 	private ImageView nave;
 	private boolean start = true;
 	private Slider slider;
@@ -42,8 +42,8 @@ public class Maul extends Thread {
 
 	public void retornarPosicaoInicial() {
 		Platform.runLater(() -> {
-			nave.setLayoutX(200);
-			nave.setLayoutY(560);
+			nave.setLayoutX(145);
+			nave.setLayoutY(625);
 			nave.setRotate(0);
 		});
 	}
@@ -75,43 +75,92 @@ public class Maul extends Thread {
 		return start;
 	}
 
+	public void retornarBaseDecolagem() {
+		Platform.runLater(() -> {
+			nave.setLayoutX(80);
+			nave.setLayoutY(578);
+			nave.setRotate(0);
+		});
+	}
+
 	@Override
 	public void run() {
 		try {
-			while (true) {
-				if (!pause) { // Check the pause variable instead of the start variable
+			while (!Thread.currentThread().isInterrupted()) {
+				if (!pause) {
 					moverNaveMaul();
-				} else {
-					Thread.sleep(500);
 				}
 			}
 		} catch (InterruptedException e) {
+			// Thread was interrupted while waiting or sleeping
+			// Log the exception and return from the method
 			e.printStackTrace();
+			return;
 		}
 	}
 
 	public void moverNaveMaul() throws InterruptedException {
-		moverDireita(296);
-		moverDireita(393);
-		moverCima(460);
-		moverCima(360);
-		moverCima(260);
-		moverCima(160);
-		moverCima(60);
-		moverEsquerda(296);
-		moverEsquerda(200);
-		moverBaixo(160);
-		moverBaixo(260);
-		moverBaixo(360);
-		moverBaixo(460);
-		moverBaixo(560);
 
+
+		retornarPosicaoInicial();
+		controle.semaforoOAK_1.acquire();
+		controle.semaforoANA_2.acquire();
+		moverDireita(270);
+		moverDireita(395);
+			controle.semaforoOAK_1.release();
+			controle.semaforoANA_2.release();
+
+		controle.semaforoNEJI_45.acquire();
+		controle.semaforoYOKA_46.acquire();
+		controle.semaforoHILL_47.acquire();
+		controle.semaforoLUNA_48.acquire();
+		controle.semaforoVIBE_49.acquire();
+		moverCima(505);
+		moverCima(375);
+		moverCima(245);
+		moverCima(125);
+		moverCima(0);
+
+			controle.semaforoNEJI_45.release();
+			controle.semaforoYOKA_46.release();
+			controle.semaforoHILL_47.release();
+			controle.semaforoLUNA_48.release();
+			controle.semaforoVIBE_49.release();
+		
+		controle.semaforoAXE_27.acquire();
+		controle.semaforoBUD_26.acquire();
+		moverEsquerda(270);
+		moverEsquerda(145);
+		controle.semaforoAXE_27.release();
+		controle.semaforoBUD_26.release();
+
+		controle.semaforoNOVA_39.acquire();
+		controle.semaforoIRIS_38.acquire();
+		controle.semaforoAQUA_37.acquire();
+		controle.semaforoFUJI_36.acquire();
+		controle.semaforoAIMI_35.acquire();
+		moverBaixo(125);
+		moverBaixo(245);
+		moverBaixo(375);
+		moverBaixo(505);
+		moverBaixo(625);
+		controle.semaforoNOVA_39.release();
+		controle.semaforoIRIS_38.release();
+		controle.semaforoAQUA_37.release();
+		controle.semaforoFUJI_36.release();
+		controle.semaforoAIMI_35.release();
+		
 	}
 
-	public void moverEsquerda(double COORD_X) throws InterruptedException {
+	public void moverEsquerda(double COORD_X) {
 		while (posicaoXinicial != COORD_X) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(270);
 				nave.setLayoutX(posicaoXinicial);
@@ -119,12 +168,16 @@ public class Maul extends Thread {
 			posicaoXinicial--;
 		}
 	}
-
-	// Método para mover a direita, aumentando o valor de X
-	public void moverDireita(double COORD_X) throws InterruptedException {
+	
+	public void moverDireita(double COORD_X) {
 		while (posicaoXinicial != COORD_X) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(90);
 				nave.setLayoutX(posicaoXinicial);
@@ -132,12 +185,16 @@ public class Maul extends Thread {
 			posicaoXinicial++;
 		}
 	}
-
-	// Método para mover para cima, diminuindo o valor de Y
-	public void moverCima(double COORD_Y) throws InterruptedException {
+	
+	public void moverCima(double COORD_Y) {
 		while (posicaoYinicial != COORD_Y) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(0);
 				nave.setLayoutY(posicaoYinicial);
@@ -145,12 +202,16 @@ public class Maul extends Thread {
 			posicaoYinicial--;
 		}
 	}
-
-	// Método para mover para baixo, aumentando o valor de Y
-	public void moverBaixo(double COORD_Y) throws InterruptedException {
+	
+	public void moverBaixo(double COORD_Y) {
 		while (posicaoYinicial != COORD_Y) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(180);
 				nave.setLayoutY(posicaoYinicial);

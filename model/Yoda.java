@@ -12,11 +12,10 @@ import javafx.scene.image.ImageView;
 // Yoda percorre o percurso 04 no sentido anti-horário
 public class Yoda extends Thread {
 	private int velocidade = 5;
-	private int posicaoXinicial = 100;
-	private int posicaoYinicial = 560;
+	private int posicaoXinicial = 270;
+	private int posicaoYinicial = 375;
 	private ImageView nave;
 	private boolean start = true;
-	public boolean isStart = true;
 	private Slider slider;
 	private boolean pause = false;
 	private final Lock lock = new ReentrantLock();
@@ -68,48 +67,120 @@ public class Yoda extends Thread {
 		return start;
 	}
 
+	public void retornarBaseDecolagem() {
+		Platform.runLater(() -> {
+			nave.setLayoutX(205);
+			nave.setLayoutY(326);
+			nave.setRotate(0);
+		});
+	}
+
 	@Override
 	public void run() {
 		try {
-			while (true) {
-				if (!pause) { // Check the pause variable instead of the start variable
+			while (!Thread.currentThread().isInterrupted()) {
+				if (!pause) {
 					moverNaveYoda();
-				} else {
-          Thread.sleep(500);
-        }
+				}
 			}
 		} catch (InterruptedException e) {
+			// Thread was interrupted while waiting or sleeping
+			// Log the exception and return from the method
 			e.printStackTrace();
+			return;
 		}
 	}
 
 	public void moverNaveYoda() throws InterruptedException {
-		moverDireita(200);
-		moverDireita(296);
-		moverDireita(393);
-		moverDireita(490);
-		moverDireita(586);
-		moverCima(460);
-		moverCima(360);
-		moverEsquerda(490);
-		moverEsquerda(393);
-		moverEsquerda(296);
-		moverCima(260);
-		moverCima(160);
-		moverCima(60);
-		moverEsquerda(200);
-		moverEsquerda(100);
-		moverBaixo(160);
-		moverBaixo(260);
-		moverBaixo(360);
-		moverBaixo(460);
-		moverBaixo(560);
+
+		retornarPosicaoInicial();
+		controle.semaforoGAZE_42.acquire();
+		controle.semaforoLUSH_43.acquire();
+		controle.semaforoDUSK_44.acquire();
+		moverCima(245);
+		moverCima(125);
+		moverCima(0);
+			controle.semaforoGAZE_42.release();
+			controle.semaforoLUSH_43.release();
+			controle.semaforoDUSK_44.release();
+
+
+
+		controle.semaforoBUD_26.acquire();
+		controle.semaforoWIN_25.acquire();
+		moverEsquerda(145);
+		moverEsquerda(20);
+			controle.semaforoBUD_26.release();
+			controle.semaforoWIN_25.release();
+
+
+
+		controle.semaforoHALO_34.acquire();
+		controle.semaforoROSE_33.acquire();
+		controle.semaforoVINE_32.acquire();
+		controle.semaforoZORO_31.acquire();
+		controle.semaforoAIKO_30.acquire();
+		moverBaixo(125);
+		moverBaixo(245);
+		moverBaixo(365);
+		moverBaixo(495);
+		moverBaixo(625);
+			controle.semaforoHALO_34.release();
+			controle.semaforoROSE_33.release();
+			controle.semaforoVINE_32.release();
+			controle.semaforoZORO_31.release();
+			controle.semaforoAIKO_30.release();
+
+
+
+		controle.semaforoELM_0.acquire();
+		controle.semaforoOAK_1.acquire();
+		controle.semaforoANA_2.acquire();
+		controle.semaforoASH_3.acquire();
+		controle.semaforoBEE_4.acquire();
+		moverDireita(145);
+		moverDireita(270);
+		moverDireita(395);
+		moverDireita(520);
+		moverDireita(645);
+			controle.semaforoELM_0.release();
+			controle.semaforoOAK_1.release();
+			controle.semaforoANA_2.release();
+			controle.semaforoASH_3.release();
+			controle.semaforoBEE_4.release();
+
+
+
+		controle.semaforoBUGG_55.acquire();
+		controle.semaforoHIRO_56.acquire();
+		moverCima(505);
+		moverCima(375);
+			controle.semaforoBUGG_55.release();
+			controle.semaforoHIRO_56.release();
+
+
+		controle.semaforoORB_14.acquire();
+		controle.semaforoLUX_13.acquire();
+		controle.semaforoJOY_12.acquire();
+		moverEsquerda(520);
+		moverEsquerda(395);
+		moverEsquerda(270);
+			controle.semaforoORB_14.release();
+			controle.semaforoLUX_13.release();
+			controle.semaforoJOY_12.release();
+
+
 	}
 
-	public void moverEsquerda(double COORD_X) throws InterruptedException {
+	public void moverEsquerda(double COORD_X) {
 		while (posicaoXinicial != COORD_X) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(270);
 				nave.setLayoutX(posicaoXinicial);
@@ -117,12 +188,16 @@ public class Yoda extends Thread {
 			posicaoXinicial--;
 		}
 	}
-
-	// Método para mover a direita, aumentando o valor de X
-	public void moverDireita(double COORD_X) throws InterruptedException {
+	
+	public void moverDireita(double COORD_X) {
 		while (posicaoXinicial != COORD_X) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(90);
 				nave.setLayoutX(posicaoXinicial);
@@ -130,12 +205,16 @@ public class Yoda extends Thread {
 			posicaoXinicial++;
 		}
 	}
-
-	// Método para mover para cima, diminuindo o valor de Y
-	public void moverCima(double COORD_Y) throws InterruptedException {
+	
+	public void moverCima(double COORD_Y) {
 		while (posicaoYinicial != COORD_Y) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(0);
 				nave.setLayoutY(posicaoYinicial);
@@ -143,12 +222,16 @@ public class Yoda extends Thread {
 			posicaoYinicial--;
 		}
 	}
-
-	// Método para mover para baixo, aumentando o valor de Y
-	public void moverBaixo(double COORD_Y) throws InterruptedException {
+	
+	public void moverBaixo(double COORD_Y) {
 		while (posicaoYinicial != COORD_Y) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(180);
 				nave.setLayoutY(posicaoYinicial);
@@ -158,8 +241,8 @@ public class Yoda extends Thread {
 	}
 	public void retornarPosicaoInicial() {
 		Platform.runLater(() -> {
-		  nave.setLayoutX(100);
-		  nave.setLayoutY(560);
+		  nave.setLayoutX(270);
+		  nave.setLayoutY(375);
 		  nave.setRotate(0);
 		});
 	  }
@@ -178,5 +261,6 @@ public class Yoda extends Thread {
 			lock.unlock();
 		}
 	}
+
 
 }

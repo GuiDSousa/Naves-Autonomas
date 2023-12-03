@@ -9,12 +9,12 @@ import javafx.application.Platform;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 
-// Kylo percorre o percurso 15 no sentido horário
+// Kylo percorre o percurso 18 no sentido horário
 public class Kylo extends Thread {
 
 	private int velocidade = 20;
-	private int posicaoXinicial = 586;
-	private int posicaoYinicial = 560;
+	private int posicaoXinicial = 645;
+	private int posicaoYinicial = 245;
 	private ImageView nave;
 	private boolean start = true;
 	private Slider slider;
@@ -43,8 +43,8 @@ public class Kylo extends Thread {
 
 	public void retornarPosicaoInicial() {
 		Platform.runLater(() -> {
-			nave.setLayoutX(586);
-			nave.setLayoutY(560);
+			nave.setLayoutX(645);
+			nave.setLayoutY(245);
 			nave.setRotate(0);
 		});
 	}
@@ -76,44 +76,88 @@ public class Kylo extends Thread {
 		return start;
 	}
 
+	public void retornarBaseDecolagem() {
+		Platform.runLater(() -> {
+			nave.setLayoutX(584);
+			nave.setLayoutY(199);
+			nave.setRotate(0);
+		});
+	}
+
+
 	@Override
 	public void run() {
 		try {
-			while (true) {
-				if (!pause) { // Check the pause variable instead of the start variable
+			while (!Thread.currentThread().isInterrupted()) {
+				if (!pause) {
 					moverNaveKylo();
-				} else {
-          Thread.sleep(500);
-        }
+				}
 			}
 		} catch (InterruptedException e) {
+			// Thread was interrupted while waiting or sleeping
+			// Log the exception and return from the method
 			e.printStackTrace();
+			return;
 		}
 	}
 
 	public void moverNaveKylo() throws InterruptedException {
-		moverEsquerda(490);
-		moverEsquerda(393);
-		moverEsquerda(296);
-		moverCima(460);
-		moverCima(360);
+		retornarPosicaoInicial();
+		controle.semaforoPAVE_57.acquire();
+		controle.semaforoHIRO_56.acquire();
+		controle.semaforoBUGG_55.acquire();
+		moverBaixo(375);
+		moverBaixo(505);
+		moverBaixo(625);
+			controle.semaforoPAVE_57.release();
+			controle.semaforoHIRO_56.release();
+			controle.semaforoBUGG_55.release();
+
+		controle.semaforoBEE_4.acquire();
+		controle.semaforoASH_3.acquire();
+		controle.semaforoANA_2.acquire();
+		moverEsquerda(520);
+		moverEsquerda(395);
+		moverEsquerda(270);
+		moverEsquerda(145);
+			controle.semaforoBEE_4.release();
+			controle.semaforoASH_3.release();
+			controle.semaforoANA_2.release();
+
+		controle.semaforoCHOU_40.acquire();
+		controle.semaforoEREN_41.acquire();
+		controle.semaforoGAZE_42.acquire();
+		moverCima(505);
+		moverCima(375);
 		controle.semaforoJOY_12.acquire();
-		moverCima(260);
+		moverCima(245);
 		controle.semaforoJOY_12.release();
-		moverDireita(393);
-		controle.semaforoHILL_47.acquire();
-		moverDireita(490);
-		controle.semaforoHILL_47.release();
-		moverDireita(586);
-		moverBaixo(360);
-		moverBaixo(460);
-		moverBaixo(560);
+		controle.semaforoCHOU_40.release();
+		controle.semaforoEREN_41.release();
+		controle.semaforoGAZE_42.release();
+
+		controle.semaforoINK_17.acquire();
+		controle.semaforoPOD_18.acquire();
+		controle.semaforoHEX_19.acquire();
+		moverDireita(395);
+		moverDireita(520);
+		moverDireita(645);
+		controle.semaforoINK_17.release();
+		controle.semaforoPOD_18.release();
+		controle.semaforoHEX_19.release();
+
+		
 	}
 
-	public void moverEsquerda(double COORD_X) throws InterruptedException {
+	public void moverEsquerda(double COORD_X) {
 		while (posicaoXinicial != COORD_X) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(270);
 				nave.setLayoutX(posicaoXinicial);
@@ -121,12 +165,16 @@ public class Kylo extends Thread {
 			posicaoXinicial--;
 		}
 	}
-
-	// Método para mover a direita, aumentando o valor de X
-	public void moverDireita(double COORD_X) throws InterruptedException {
+	
+	public void moverDireita(double COORD_X) {
 		while (posicaoXinicial != COORD_X) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(90);
 				nave.setLayoutX(posicaoXinicial);
@@ -134,12 +182,16 @@ public class Kylo extends Thread {
 			posicaoXinicial++;
 		}
 	}
-
-	// Método para mover para cima, diminuindo o valor de Y
-	public void moverCima(double COORD_Y) throws InterruptedException {
+	
+	public void moverCima(double COORD_Y) {
 		while (posicaoYinicial != COORD_Y) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(0);
 				nave.setLayoutY(posicaoYinicial);
@@ -147,12 +199,16 @@ public class Kylo extends Thread {
 			posicaoYinicial--;
 		}
 	}
-
-	// Método para mover para baixo, aumentando o valor de Y
-	public void moverBaixo(double COORD_Y) throws InterruptedException {
+	
+	public void moverBaixo(double COORD_Y) {
 		while (posicaoYinicial != COORD_Y) {
 			pauseIfNeeded();
-			sleep(500 / (velocidade * 5));
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
 			Platform.runLater(() -> {
 				nave.setRotate(180);
 				nave.setLayoutY(posicaoYinicial);

@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -32,6 +33,8 @@ public class MainController implements Initializable {
 	@FXML
 	private ImageView nave_yoda;
 	@FXML
+	private ImageView percurso_yoda;
+	@FXML
 	private Slider slider_yoda;
 	@FXML
 	private Button pausar_yoda;
@@ -41,6 +44,8 @@ public class MainController implements Initializable {
 	// Luke
 	@FXML
 	private ImageView nave_luke;
+	@FXML
+	private ImageView percurso_luke;
 	@FXML
 	private Slider slider_luke;
 	@FXML
@@ -52,6 +57,8 @@ public class MainController implements Initializable {
 	@FXML
 	private ImageView nave_obiwan;
 	@FXML
+	private ImageView percurso_obiwan;
+	@FXML
 	private Slider slider_obiwan;
 	@FXML
 	private Button pausar_obiwan;
@@ -61,6 +68,8 @@ public class MainController implements Initializable {
 	// Ahsoka
 	@FXML
 	private ImageView nave_ahsoka;
+	@FXML
+	private ImageView percurso_ahsoka;
 	@FXML
 	private Slider slider_ahsoka;
 	@FXML
@@ -73,6 +82,8 @@ public class MainController implements Initializable {
 	@FXML
 	private ImageView nave_maul;
 	@FXML
+	private ImageView percurso_maul;
+	@FXML
 	private Slider slider_maul;
 	@FXML
 	private Button pausar_maul;
@@ -82,6 +93,8 @@ public class MainController implements Initializable {
 	// Darth Sidious
 	@FXML
 	private ImageView nave_sidious;
+	@FXML
+	private ImageView percurso_sidious;
 	@FXML
 	private Slider slider_sidious;
 	@FXML
@@ -93,6 +106,8 @@ public class MainController implements Initializable {
 	@FXML
 	private ImageView nave_vader;
 	@FXML
+	private ImageView percurso_vader;
+	@FXML
 	private Slider slider_vader;
 	@FXML
 	private Button pausar_vader;
@@ -102,6 +117,8 @@ public class MainController implements Initializable {
 	// Kylo Ren
 	@FXML
 	private ImageView nave_kylo;
+	@FXML
+	private ImageView percurso_kylo;
 	@FXML
 	private Slider slider_kylo;
 	@FXML
@@ -125,83 +142,80 @@ public class MainController implements Initializable {
 	private Sidius sidius_percurso_21_sh;
 	private Vader vader_percurso_01_sh;
 	private Yoda yoda_percurso_04_sa;
-	private Vias vias;
 	private MediaPlayer mediaPlayer;
 
-
-		// Semaforos avenida horizontal 1
-		public Semaphore semaforoELM_0 = new Semaphore(1);
-		public Semaphore semaforoOAK_1 = new Semaphore(1);
-		public Semaphore semaforoANA_2 = new Semaphore(1);
-		public Semaphore semaforoASH_3 = new Semaphore(1);
-		public Semaphore semaforoBEE_4 = new Semaphore(1);
-		// Semaforos avenida horizontal 2
-		public Semaphore semaforoSKY_5 = new Semaphore(1);
-		public Semaphore semaforoIVY_6 = new Semaphore(1);
-		public Semaphore semaforoSUN_7 = new Semaphore(1);
-		public Semaphore semaforoDEW_8 = new Semaphore(1);
-		public Semaphore semaforoFOG_9 = new Semaphore(1);
-		// Semaforos avenida horizontal 3
-		public Semaphore semaforoZEN_10 = new Semaphore(1);
-		public Semaphore semaforoJET_11 = new Semaphore(1);
-		public Semaphore semaforoJOY_12 = new Semaphore(1);
-		public Semaphore semaforoLUX_13 = new Semaphore(1);
-		public Semaphore semaforoORB_14 = new Semaphore(1);
-		// Semaforos avenida horizontal 4
-		public Semaphore semaforoPIP_15 = new Semaphore(1);
-		public Semaphore semaforoPET_16 = new Semaphore(1);
-		public Semaphore semaforoPIN_17 = new Semaphore(1);
-		public Semaphore semaforoPAI_18 = new Semaphore(1);
-		public Semaphore semaforoPOD_19 = new Semaphore(1);
-		// Semaforos avenida horizontal 5
-		public Semaphore semaforoJAX_20 = new Semaphore(1);
-		public Semaphore semaforoKAY_21 = new Semaphore(1);
-		public Semaphore semaforoACE_22 = new Semaphore(1);
-		public Semaphore semaforoFIN_23 = new Semaphore(1);
-		public Semaphore semaforoDOC_24 = new Semaphore(1);
-		// Semaforos avenida horizontal 6
-		public Semaphore semaforoWIN_25 = new  Semaphore(1);
-		public Semaphore semaforoBUD_26 = new  Semaphore(1);
-		public Semaphore semaforoAXE_27 = new  Semaphore(1);
-		public Semaphore semaforoZOE_28 = new  Semaphore(1);
-		public Semaphore semaforoGAL_29 = new  Semaphore(1);
-		// Semaforos avenida vertical 1
-		public Semaphore semaforoAIKO_30 = new  Semaphore(1);
-		public Semaphore semaforoZORO_31 = new  Semaphore(1);
-		public Semaphore semaforoVINE_32 = new  Semaphore(1);
-		public Semaphore semaforoROSE_33 = new  Semaphore(1);
-		public Semaphore semaforoHALO_34 = new  Semaphore(1);
-		// Semaforos avenida vertical 2
-		public Semaphore semaforoAIMI_35 = new  Semaphore(1);
-		public Semaphore semaforoFUJI_36 = new  Semaphore(1);
-		public Semaphore semaforoAQUA_37 = new  Semaphore(1);
-		public Semaphore semaforoIRIS_38 = new  Semaphore(1);
-		public Semaphore semaforoNOVA_39 = new  Semaphore(1);
-		// Semaforos avenida vertical 3
-		public Semaphore semaforoCHOU_40 = new  Semaphore(1);
-		public Semaphore semaforoEREN_41 = new  Semaphore(1);
-		public Semaphore semaforoGAZE_42 = new  Semaphore(1);
-		public Semaphore semaforoLUSH_43 = new  Semaphore(1);
-		public Semaphore semaforoDUSK_44 = new  Semaphore(1);
-		// Semaforos avenida vertical 4
-		public Semaphore semaforoNEJI_45 = new  Semaphore(1);
-		public Semaphore semaforoYOKA_46 = new  Semaphore(1);
-		public Semaphore semaforoHILL_47 = new  Semaphore(1);
-		public Semaphore semaforoLUNA_48 = new  Semaphore(1);
-		public Semaphore semaforoVIBE_49 = new  Semaphore(1);
-		// Semaforos avenida vertical 5
-		public Semaphore semaforoPAIN_50 = new  Semaphore(1);
-		public Semaphore semaforoHANA_51 = new  Semaphore(1);
-		public Semaphore semaforoSILK_52 = new  Semaphore(1);
-		public Semaphore semaforoECHO_53 = new  Semaphore(1);
-		public Semaphore semaforoZEST_54 = new  Semaphore(1);
-		// Semaforos avenida vertical 6
-		public Semaphore semaforoBUGG_55 = new  Semaphore(1);
-		public Semaphore semaforoHIRO_56 = new  Semaphore(1);
-		public Semaphore semaforoPAVE_57 = new  Semaphore(1);
-		public Semaphore semaforoMIST_58 = new  Semaphore(1);
-		public Semaphore semaforoZENO_59 = new  Semaphore(1);
-
+	// Semaforos avenida horizontal 1
+	public Semaphore semaforoELM_0 = new Semaphore(1);
+	public Semaphore semaforoOAK_1 = new Semaphore(1);
+	public Semaphore semaforoANA_2 = new Semaphore(1);
+	public Semaphore semaforoASH_3 = new Semaphore(1);
+	public Semaphore semaforoBEE_4 = new Semaphore(1);
+	// Semaforos avenida horizontal 2
+	public Semaphore semaforoSKY_5 = new Semaphore(1);
+	public Semaphore semaforoIVY_6 = new Semaphore(1);
+	public Semaphore semaforoSUN_7 = new Semaphore(1);
+	public Semaphore semaforoDEW_8 = new Semaphore(1);
+	public Semaphore semaforoFOG_9 = new Semaphore(1);
+	// Semaforos avenida horizontal 3
+	public Semaphore semaforoZEN_10 = new Semaphore(1);
+	public Semaphore semaforoJET_11 = new Semaphore(1);
+	public Semaphore semaforoJOY_12 = new Semaphore(1);
+	public Semaphore semaforoLUX_13 = new Semaphore(1);
+	public Semaphore semaforoORB_14 = new Semaphore(1);
+	// Semaforos avenida horizontal 4
+	public Semaphore semaforoPIP_15 = new Semaphore(1);
+	public Semaphore semaforoPET_16 = new Semaphore(1);
+	public Semaphore semaforoINK_17 = new Semaphore(1);
+	public Semaphore semaforoPOD_18 = new Semaphore(1);
+	public Semaphore semaforoHEX_19 = new Semaphore(1);
+	// Semaforos avenida horizontal 5
+	public Semaphore semaforoJAX_20 = new Semaphore(1);
+	public Semaphore semaforoKAY_21 = new Semaphore(1);
+	public Semaphore semaforoACE_22 = new Semaphore(1);
+	public Semaphore semaforoFIN_23 = new Semaphore(1);
+	public Semaphore semaforoDOC_24 = new Semaphore(1);
+	// Semaforos avenida horizontal 6
+	public Semaphore semaforoWIN_25 = new Semaphore(1);
+	public Semaphore semaforoBUD_26 = new Semaphore(1);
+	public Semaphore semaforoAXE_27 = new Semaphore(1);
+	public Semaphore semaforoZOE_28 = new Semaphore(1);
+	public Semaphore semaforoGAL_29 = new Semaphore(1);
+	// Semaforos avenida vertical 1
+	public Semaphore semaforoAIKO_30 = new Semaphore(1);
+	public Semaphore semaforoZORO_31 = new Semaphore(1);
+	public Semaphore semaforoVINE_32 = new Semaphore(1);
+	public Semaphore semaforoROSE_33 = new Semaphore(1);
+	public Semaphore semaforoHALO_34 = new Semaphore(1);
+	// Semaforos avenida vertical 2
+	public Semaphore semaforoAIMI_35 = new Semaphore(1);
+	public Semaphore semaforoFUJI_36 = new Semaphore(1);
+	public Semaphore semaforoAQUA_37 = new Semaphore(1);
+	public Semaphore semaforoIRIS_38 = new Semaphore(1);
+	public Semaphore semaforoNOVA_39 = new Semaphore(1);
+	// Semaforos avenida vertical 3
+	public Semaphore semaforoCHOU_40 = new Semaphore(1);
+	public Semaphore semaforoEREN_41 = new Semaphore(1);
+	public Semaphore semaforoGAZE_42 = new Semaphore(1);
+	public Semaphore semaforoLUSH_43 = new Semaphore(1);
+	public Semaphore semaforoDUSK_44 = new Semaphore(1);
+	// Semaforos avenida vertical 4
+	public Semaphore semaforoNEJI_45 = new Semaphore(1);
+	public Semaphore semaforoYOKA_46 = new Semaphore(1);
+	public Semaphore semaforoHILL_47 = new Semaphore(1);
+	public Semaphore semaforoLUNA_48 = new Semaphore(1);
+	public Semaphore semaforoVIBE_49 = new Semaphore(1);
+	// Semaforos avenida vertical 5
+	public Semaphore semaforoPAIN_50 = new Semaphore(1);
+	public Semaphore semaforoHANA_51 = new Semaphore(1);
+	public Semaphore semaforoSILK_52 = new Semaphore(1);
+	public Semaphore semaforoECHO_53 = new Semaphore(1);
+	public Semaphore semaforoZEST_54 = new Semaphore(1);
+	// Semaforos avenida vertical 6
+	public Semaphore semaforoBUGG_55 = new Semaphore(1);
+	public Semaphore semaforoHIRO_56 = new Semaphore(1);
+	public Semaphore semaforoPAVE_57 = new Semaphore(1);
+	public Semaphore semaforoMIST_58 = new Semaphore(1);
+	public Semaphore semaforoZENO_59 = new Semaphore(1);
 
 	// Botões de pause
 	public void pausarYoda() {
@@ -302,40 +316,15 @@ public class MainController implements Initializable {
 	}
 
 	public void interromperThreads() {
-		// Interrompe as Threads
-		if (this.yoda_percurso_04_sa.isStart()) {
-			yoda_percurso_04_sa.parar();
-		}
-		this.yoda_percurso_04_sa.interrupt();
-		if (this.ahsoka_percurso_15_sh.isStart()) {
-			ahsoka_percurso_15_sh.parar();
-		}
-		this.ahsoka_percurso_15_sh.interrupt();
-		if (this.kylo_percurso_18_sh.isStart()) {
-			kylo_percurso_18_sh.parar();
-		}
-		this.kylo_percurso_18_sh.interrupt();
-		if (this.luke_percurso_08_sh.isStart()) {
-			luke_percurso_08_sh.parar();
-		}
-		this.luke_percurso_08_sh.interrupt();
-		if (this.maul_percurso_12_sa.isStart()) {
-			maul_percurso_12_sa.parar();
-		}
-		this.maul_percurso_12_sa.interrupt();
-		if (this.obiwan_percurso_19_sh.isStart()) {
-			obiwan_percurso_19_sh.parar();
-		}
-		this.obiwan_percurso_19_sh.interrupt();
-		if (this.sidius_percurso_21_sh.isStart()) {
-			sidius_percurso_21_sh.parar();
-		}
-		this.sidius_percurso_21_sh.interrupt();
-		if (this.vader_percurso_01_sh.isStart()) {
-			vader_percurso_01_sh.parar();
-		}
-		this.vader_percurso_01_sh.interrupt();
-
+		// Interrompe as Thread
+		yoda_percurso_04_sa.interrupt();
+		ahsoka_percurso_15_sh.interrupt();
+		kylo_percurso_18_sh.interrupt();
+		luke_percurso_08_sh.interrupt();
+		maul_percurso_12_sa.interrupt();
+		obiwan_percurso_19_sh.interrupt();
+		sidius_percurso_21_sh.interrupt();
+		vader_percurso_01_sh.interrupt();
 	}
 
 	public void reset() {
@@ -348,15 +337,80 @@ public class MainController implements Initializable {
 		start.setDisable(false);
 	}
 
+	// Métodos para ocultar os percursos
+	public void ocultarPercursoYoda() {
+		if (percurso_yoda.isVisible()) {
+			percurso_yoda.setVisible(false);
+		} else {
+			percurso_yoda.setVisible(true);
+		}
+	}
+
+	public void ocultarPercursoAhsoka() {
+		if (percurso_ahsoka.isVisible()) {
+			percurso_ahsoka.setVisible(false);
+		} else {
+			percurso_ahsoka.setVisible(true);
+		}
+	}
+
+	public void ocultarPercursoKylo() {
+		if (percurso_kylo.isVisible()) {
+			percurso_kylo.setVisible(false);
+		} else {
+			percurso_kylo.setVisible(true);
+		}
+	}
+
+	public void ocultarPercursoLuke() {
+		if (percurso_luke.isVisible()) {
+			percurso_luke.setVisible(false);
+		} else {
+			percurso_luke.setVisible(true);
+		}
+	}
+
+	public void ocultarPercursoMaul() {
+		if (percurso_maul.isVisible()) {
+			percurso_maul.setVisible(false);
+		} else {
+			percurso_maul.setVisible(true);
+		}
+	}
+
+	public void ocultarPercursoObiwan() {
+		if (percurso_obiwan.isVisible()) {
+			percurso_obiwan.setVisible(false);
+		} else {
+			percurso_obiwan.setVisible(true);
+		}
+	}
+
+	public void ocultarPercursoSidius() {
+		if (percurso_sidious.isVisible()) {
+			percurso_sidious.setVisible(false);
+		} else {
+			percurso_sidious.setVisible(true);
+		}
+	}
+
+	public void ocultarPercursoVader() {
+		if (percurso_vader.isVisible()) {
+			percurso_vader.setVisible(false);
+		} else {
+			percurso_vader.setVisible(true);
+		}
+	}
+
 	public void reiniciarNaves() {
-		ahsoka_percurso_15_sh.retornarPosicaoInicial();
-		kylo_percurso_18_sh.retornarPosicaoInicial();
-		luke_percurso_08_sh.retornarPosicaoInicial();
-		maul_percurso_12_sa.retornarPosicaoInicial();
-		obiwan_percurso_19_sh.retornarPosicaoInicial();
-		sidius_percurso_21_sh.retornarPosicaoInicial();
-		vader_percurso_01_sh.retornarPosicaoInicial();
-		yoda_percurso_04_sa.retornarPosicaoInicial();
+		ahsoka_percurso_15_sh.retornarBaseDecolagem();
+		kylo_percurso_18_sh.retornarBaseDecolagem();
+		luke_percurso_08_sh.retornarBaseDecolagem();
+		maul_percurso_12_sa.retornarBaseDecolagem();
+		obiwan_percurso_19_sh.retornarBaseDecolagem();
+		sidius_percurso_21_sh.retornarBaseDecolagem();
+		vader_percurso_01_sh.retornarBaseDecolagem();
+		yoda_percurso_04_sa.retornarBaseDecolagem();
 	}
 
 	@Override
@@ -427,6 +481,7 @@ public class MainController implements Initializable {
 	}
 
 	public void botaoIniciar() {
+
 		// Inicialização da Thread da nave da Ahsoka
 		ahsoka_percurso_15_sh = new Ahsoka(this, nave_ahsoka, slider_ahsoka);
 		ahsoka_percurso_15_sh.setName("Ahsoka");

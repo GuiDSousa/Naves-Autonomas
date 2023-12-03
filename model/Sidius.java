@@ -12,8 +12,8 @@ import javafx.scene.image.ImageView;
 // Sidius percorre o percurso 21 no sentido horário
 public class Sidius extends Thread {
 	private int velocidade = 5;
-	private int posicaoXinicial = 490;
-	private int posicaoYinicial = 560;
+	private int posicaoXinicial = 520;
+	private int posicaoYinicial = 505;
 	private ImageView nave;
 	private boolean start = true;
 	private Slider slider;
@@ -41,8 +41,8 @@ public class Sidius extends Thread {
 
 		public void retornarPosicaoInicial() {
 			Platform.runLater(() -> {
-			  nave.setLayoutX(490);
-			  nave.setLayoutY(560);
+			  nave.setLayoutX(520);
+			  nave.setLayoutY(505);
 			  nave.setRotate(0);
 			});
 		  }
@@ -73,105 +73,200 @@ public class Sidius extends Thread {
 	public boolean isStart() {
 		return start;
 	}
+
+	public void retornarBaseDecolagem() {
+		Platform.runLater(() -> {
+			nave.setLayoutX(585);
+			nave.setLayoutY(450);
+			nave.setRotate(0);
+		});
+	}
 	
 	@Override
 	public void run() {
 		try {
-			while (true) {
-				if (!pause) { // Check the pause variable instead of the start variable
+			while (!Thread.currentThread().isInterrupted()) {
+				if (!pause) {
 					moverNaveSidius();
-				} else {
-          Thread.sleep(500);
-        }
+				}
 			}
 		} catch (InterruptedException e) {
+			// Thread was interrupted while waiting or sleeping
+			// Log the exception and return from the method
 			e.printStackTrace();
+			return;
 		}
 	}
 
 	public void moverNaveSidius () throws InterruptedException {
-		moverEsquerda(393);
-		moverEsquerda(296);
-		moverEsquerda(200);
-		moverCima(460);
-		moverCima(360);
+
+
+		retornarPosicaoInicial();
+		controle.semaforoPAIN_50.acquire();
+		moverBaixo(625);
+			controle.semaforoPAIN_50.release();
+
+
+
+		controle.semaforoASH_3.acquire();
+		controle.semaforoANA_2.acquire();
+		controle.semaforoOAK_1.acquire();
+		moverEsquerda(395);
+		moverEsquerda(270);
+		moverEsquerda(145);
+			controle.semaforoASH_3.release();
+			controle.semaforoANA_2.release();
+			controle.semaforoOAK_1.release();
+
+		
+		controle.semaforoAIMI_35.acquire();
+		controle.semaforoFUJI_36.acquire();
+		moverCima(505);
+		moverCima(375);
+			controle.semaforoAIMI_35.release();
+			controle.semaforoFUJI_36.release();
+
+
+		
 		controle.semaforoZEN_10.acquire();
-		moverEsquerda(100);
-		controle.semaforoZEN_10.release();
+		moverEsquerda(20);
+			controle.semaforoZEN_10.release();
+
+
+		
 		controle.semaforoVINE_32.acquire();
-		moverCima(260);
-		controle.semaforoVINE_32.release();
-		moverDireita(200);
-		moverCima(160);
-		moverCima(60);
+		moverCima(245);
+			controle.semaforoVINE_32.release();
+
+
+		
+		controle.semaforoPIP_15.acquire();
+		moverDireita(145);
+			controle.semaforoPIP_15.release();
+
+
+		
+		controle.semaforoIRIS_38.acquire();
+		controle.semaforoNOVA_39.acquire();
+		moverCima(125);
+		moverCima(0);
+			controle.semaforoIRIS_38.release();
+			controle.semaforoNOVA_39.release();
+
+
+		
 		controle.semaforoBUD_26.acquire();
 		controle.semaforoAXE_27.acquire();
 		controle.semaforoZOE_28.acquire();
-		moverDireita(296);
-		moverDireita(393);
-		moverDireita(490);
-		controle.semaforoBUD_26.release();
-		controle.semaforoAXE_27.release();
-		controle.semaforoZOE_28.release();
-		moverBaixo(160);
-		moverBaixo(260);
-		moverDireita(586);
-		moverBaixo(360);
-		moverEsquerda(490);
-		moverBaixo(460);
-		moverBaixo(560);
+		moverDireita(270);
+		moverDireita(395);
+		moverDireita(520);
+			controle.semaforoBUD_26.release();
+			controle.semaforoAXE_27.release();
+			controle.semaforoZOE_28.release();
+
+
+		
+		controle.semaforoZEST_54.acquire();
+		controle.semaforoECHO_53.acquire();
+		moverBaixo(125);
+		moverBaixo(245);
+			controle.semaforoZEST_54.release();
+			controle.semaforoECHO_53.release();
+
+
+		
+		controle.semaforoHEX_19.acquire();
+		moverDireita(645);
+			controle.semaforoHEX_19.release();
+
+
+		
+		controle.semaforoPAVE_57.acquire();
+		moverBaixo(375);
+			controle.semaforoPAVE_57.release();
+
+
+		
+		controle.semaforoORB_14.acquire();
+		moverEsquerda(520);
+			controle.semaforoORB_14.release();
+
+
+		
+		controle.semaforoHANA_51.acquire();
+		moverBaixo(505);
+			controle.semaforoHANA_51.release();
+		
 	} 
 
-	public void moverEsquerda(double COORD_X) throws InterruptedException {
-    while (posicaoXinicial != COORD_X) {
-		pauseIfNeeded();
-      sleep(500 / (velocidade * 5));
-      Platform.runLater(() -> {
-        nave.setRotate(270);
-        nave.setLayoutX(posicaoXinicial);
-      });
-      posicaoXinicial--;
-    }
-  }
-
-  // Método para mover a direita, aumentando o valor de X
-  public void moverDireita(double COORD_X) throws InterruptedException {
-    while (posicaoXinicial != COORD_X) {
-		pauseIfNeeded();
-      sleep(500 / (velocidade * 5));
-      Platform.runLater(() -> {
-        nave.setRotate(90);
-        nave.setLayoutX(posicaoXinicial);
-      });
-      posicaoXinicial++;
-    }
-  }
-
-  // Método para mover para cima, diminuindo o valor de Y
-  public void moverCima(double COORD_Y) throws InterruptedException {
-    while (posicaoYinicial != COORD_Y) {
-		pauseIfNeeded();
-      sleep(500 / (velocidade * 5));
-      Platform.runLater(() -> {
-        nave.setRotate(0);
-        nave.setLayoutY(posicaoYinicial);
-      });
-      posicaoYinicial--;
-    }
-  }
-
-  // Método para mover para baixo, aumentando o valor de Y
-  public void moverBaixo(double COORD_Y) throws InterruptedException {
-    while (posicaoYinicial != COORD_Y) {
-		pauseIfNeeded();
-      sleep(500 / (velocidade * 5));
-      Platform.runLater(() -> {
-        nave.setRotate(180);
-        nave.setLayoutY(posicaoYinicial);
-      });
-      posicaoYinicial++;
-    }
-  }
+	public void moverEsquerda(double COORD_X) {
+		while (posicaoXinicial != COORD_X) {
+			pauseIfNeeded();
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
+			Platform.runLater(() -> {
+				nave.setRotate(270);
+				nave.setLayoutX(posicaoXinicial);
+			});
+			posicaoXinicial--;
+		}
+	}
+	
+	public void moverDireita(double COORD_X) {
+		while (posicaoXinicial != COORD_X) {
+			pauseIfNeeded();
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
+			Platform.runLater(() -> {
+				nave.setRotate(90);
+				nave.setLayoutX(posicaoXinicial);
+			});
+			posicaoXinicial++;
+		}
+	}
+	
+	public void moverCima(double COORD_Y) {
+		while (posicaoYinicial != COORD_Y) {
+			pauseIfNeeded();
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
+			Platform.runLater(() -> {
+				nave.setRotate(0);
+				nave.setLayoutY(posicaoYinicial);
+			});
+			posicaoYinicial--;
+		}
+	}
+	
+	public void moverBaixo(double COORD_Y) {
+		while (posicaoYinicial != COORD_Y) {
+			pauseIfNeeded();
+			try {
+				sleep(500 / (velocidade * 5));
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); // Set the interrupt status/flag
+				return; // Stop the method
+			}
+			Platform.runLater(() -> {
+				nave.setRotate(180);
+				nave.setLayoutY(posicaoYinicial);
+			});
+			posicaoYinicial++;
+		}
+	}
 
   private void pauseIfNeeded() {
 	lock.lock();

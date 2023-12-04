@@ -12,7 +12,7 @@ package model;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import controller.MainController;
+import controller.mainController;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 
@@ -27,9 +27,9 @@ public class Obiwan extends Thread {
 	private boolean pause = false;
 	private final Lock lock = new ReentrantLock();
 	private final Condition condition = lock.newCondition();
-	MainController controle = new MainController();
+	mainController controle = new mainController();
 
-	public Obiwan(MainController controle, ImageView nave) {
+	public Obiwan(mainController controle, ImageView nave) {
 		this.nave = nave;
 		this.controle = controle;
 	} // Fim do construtor

@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView; // Importa a classe ImageView
 import java.util.concurrent.locks.Condition; // Importa a classe Condition
 import java.util.concurrent.locks.Lock; // Importa a classe Lock  
 import java.util.concurrent.locks.ReentrantLock; // Importa a classe ReentrantLock
-import controller.MainController; // Importa a classe MainController
+import controller.mainController; // Importa a classe MainController
 
 // Ahsoka percorre o percurso 15 no sentido horário
 // Classe Ahsoka herda de Thread
@@ -26,10 +26,10 @@ public class Ahsoka extends Thread {
   private boolean pause = false;
   private final Lock lock = new ReentrantLock();
   private final Condition condition = lock.newCondition();
-  MainController controle = new MainController();
+  mainController controle = new mainController();
 
   // Construtor
-  public Ahsoka(MainController controle, ImageView nave) {
+  public Ahsoka(mainController controle, ImageView nave) {
     this.nave = nave;
     this.controle = controle;
   } // Fim do construtor

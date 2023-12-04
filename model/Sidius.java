@@ -11,7 +11,7 @@ package model;
 import java.util.concurrent.locks.Condition; // Importa a classe Condition
 import java.util.concurrent.locks.Lock; // Importa a classe Lock
 import java.util.concurrent.locks.ReentrantLock; // Importa a classe ReentrantLock
-import controller.MainController; // Importa a classe MainController
+import controller.mainController; // Importa a classe MainController
 import javafx.application.Platform; // Importa a classe Platform
 import javafx.scene.image.ImageView; // Importa a classe ImageView
 
@@ -26,10 +26,10 @@ public class Sidius extends Thread {
 	private boolean pause = false;
 	private final Lock lock = new ReentrantLock();
 	private final Condition condition = lock.newCondition();
-	MainController controle = new MainController();
+	mainController controle = new mainController();
 
 	// Construtor
-	public Sidius(MainController controle, ImageView nave) {
+	public Sidius(mainController controle, ImageView nave) {
 		this.nave = nave;
 		this.controle = controle;
 	} // Fim do construtor

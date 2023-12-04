@@ -11,6 +11,8 @@ package controller;
 
 import java.net.URL; // Importa a classe URL
 import java.util.ResourceBundle; // Importa a classe ResourceBundle
+import javafx.event.ActionEvent;
+
 import java.util.concurrent.Semaphore; // Importa a classe Semaphore
 import javafx.application.Platform; // Importa a classe Platform
 import javafx.fxml.FXML; // Importa a classe FXML
@@ -31,7 +33,7 @@ import model.Vader; // Importa a classe Vader
 import model.Yoda; // Importa a classe Yoda
 
 // Classe MainController que implementa Initializable
-public class MainController implements Initializable {
+public class mainController implements Initializable {
 
 	// Elementos da interface gráfica
 	// Jedis
